@@ -60,4 +60,16 @@ var app = function() {
         event.preventDefault();
         runUpdate();
     });
+
+    var parseUrl = () => {
+        var query = window.location.search;
+        var parts = query.split('=');
+        var lastParam = parts.slice(-1)[0];
+        if (lastParam == parseInt(lastParam)) {
+            projectNumber.val(parseInt(lastParam));
+            runUpdate();
+        }
+    };
+
+    parseUrl();
 };
