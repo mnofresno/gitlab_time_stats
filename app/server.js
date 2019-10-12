@@ -7,12 +7,14 @@ var basicAuth = require('basic-auth');
 
 var auth = function(req, res, next){
     var user = basicAuth(req);
-    var hashToVerify = `${user.name}_${user.pass}`;
-    for (var userName in config.users) {
-        var pass = config.users[userName];
-        var hash = `${userName}_${pass}`;
-        if (hash === hashToVerify) {
-            return next();
+    if (user && user.name) {
+        var hashToVerify = `${user.name}_${user.pass}`;
+        for (var userName in config.users) {
+            var pass = config.users[userName];
+            var hash = `${userName}_${pass}`;
+            if (hash === hashToVerify) {
+                return next();
+            }
         }
     }
     res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
