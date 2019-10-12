@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Time tracking for gitlab</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <div style="margin-top:20px;" class="container">
+            <div class="card">
+                <div class="card-header">
+                    Gitlab Time Tracking
+                </div>
+                <div class="card-body">
+                    <form id="timeStatsForm">
+                        <div class="form-group">
+                            <label for="projectNumber">Project number</label>
+                            <input type="number" class="form-control" id="projectNumber" placeholder="Put here the project number"></textarea>
+                        </div>
+                        <button type="submit" id="updateButton" class="btn btn-primary">
+                            Update time
+                            <span id="updateIcon">
+                                <i class="fa fa-refresh"></i>
+                            </span>
+                            <span id="spinnerIcon" style="display: none;">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                    <ul id="timeStats" style="display:none;">
+                        <li>Project name: <span id="projectName"></span></li>
+                        <li>Total time spent: <span id="totalTime"></span> <span class="timeUnit"></span></li>
+                        <li>Billed Time Spent: <span id="billedTime"></span> <span class="timeUnit"></span></li>
+                        <li>Not billed Time Spent: <span id="notBilledTime"></span> <span class="timeUnit"></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

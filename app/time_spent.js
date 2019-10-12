@@ -26,7 +26,6 @@ module.exports = {
                 var timeStats = issuesData.map(x => x.time_stats);
                 timeStats.forEach(x => accumulated += x.total_time_spent);
                 var totalHours = accumulated / 3600;
-                console.log('total hours: ' + totalHours);
                 client.get(`${projectUrl}`, args, function (projectData) {
                     resolve({
                         total_issues: issuesData.length,
@@ -36,5 +35,14 @@ module.exports = {
                 });
             });
         });
+    },
+    notBilled: async function(projectId) {
+        var total = await this.total(projectId);
+        var billedResult = await this.total(projectId, config.label_billed);
+        total.not_billed_value = total.value - billedResult.value;
+        total.billed_value = billedResult.value;
+        total.total_value = total.value;
+        delete total.value;
+        return total;
     }
 };

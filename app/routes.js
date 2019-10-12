@@ -10,6 +10,15 @@ module.exports = function(app) {
             res.json({message: e.statusMessage + ' replied from ' + e.responseUrl });
         }
     });
+    app.get('/api/projects/:id/not_billed_time', async (req, res) => {
+        try {
+            var result = await timeSpent.notBilled(req.params.id);
+            res.json(result);
+        } catch (e) {
+            res.statusCode = e.statusCode;
+            res.json({message: e.statusMessage + ' replied from ' + e.responseUrl });
+        }
+    });
 };
 
 process.on('uncaughtException', function (err) {
