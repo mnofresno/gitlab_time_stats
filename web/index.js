@@ -43,7 +43,7 @@ var app = function() {
         projectName.text(values.project_name);
     };
 
-    timeStatsForm.submit(async () => {
+    var runUpdate = async () => {
         showSpinner();
         try {
             var result = await update(projectNumber.val());
@@ -53,5 +53,11 @@ var app = function() {
             hideSpinner(true);
             alert('error updating time');
         }
+    };
+
+    updateButton.click(runUpdate);
+    timeStatsForm.submit((event) => {
+        event.preventDefault();
+        runUpdate();
     });
 };
