@@ -2,5 +2,7 @@ module.exports = {
 	access_token: '<your gitlab API access token here>',
 	api_base_url: '<your gitlab API host without protocol part>',
     label_billed: 'horas_facturadas',
-    users: {exampleUser: 'hisPassword'}
+    users: {exampleUser: 'hisPassword'},
+    price_rate: 100,
+    money_unit: '$'
 };

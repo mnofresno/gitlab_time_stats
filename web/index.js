@@ -9,7 +9,6 @@ var app = function() {
     var totalTime = $('#totalTime');
     var notBilledTime = $('#notBilledTime');
     var billedTime = $('#billedTime');
-    var timeUnit = $('.timeUnit');
     var spinnerIcon = $('#spinnerIcon');
     var updateIcon = $('#updateIcon');
     var timeStats = $('#timeStats');
@@ -35,11 +34,14 @@ var app = function() {
         return await $.get(`/api/projects/${projectId}/not_billed_time`);
     };
 
+    var setTimeValue = (target, value, values) => {
+        target.text(`${value} ${values.unit} (${values.money_unit} ${values.price_rate * value})`);
+    };
+
     var updateValues = (values) => {
-        timeUnit.text(values.unit);
-        billedTime.text(values.billed_value);
-        notBilledTime.text(values.not_billed_value);
-        totalTime.text(values.total_value);
+        setTimeValue(billedTime, values.billed_value, values);
+        setTimeValue(notBilledTime, values.not_billed_value, values);
+        setTimeValue(totalTime, values.total_value, values);
         projectName.text(values.project_name);
     };
 

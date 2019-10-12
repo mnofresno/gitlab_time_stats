@@ -42,6 +42,8 @@ module.exports = {
         total.not_billed_value = total.value - billedResult.value;
         total.billed_value = billedResult.value;
         total.total_value = total.value;
+        total.money_unit = config.money_unit;
+        total.price_rate = config.price_rate;
         delete total.value;
         return total;
     }
