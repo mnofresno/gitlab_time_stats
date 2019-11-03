@@ -15,7 +15,9 @@ module.exports = function(app) {
             var result = await timeSpent.notBilled(req.params.id);
             res.json(result);
         } catch (e) {
-            res.statusCode = e.statusCode;
+            res.statusCode = e.statusCode
+                ? e.statusCode
+                : 500;
             res.json({message: e.statusMessage + ' replied from ' + e.responseUrl });
         }
     });

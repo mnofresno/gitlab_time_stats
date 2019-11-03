@@ -12,28 +12,41 @@ module.exports = {
 
             var args = {
                 headers: {'Private-Token': privateToken},
-                parameters: {}
+                parameters: { page: 1 }
             };
             if (label) {
                 args.parameters.labels = label;
             }
-            client.get(`${issuesUrl}`, args, function (issuesData, response) {
-                if (response.statusCode !== 200) {
-                    reject(response);
-                    return;
-                }
-                var accumulated = 0;
-                var timeStats = issuesData.map(x => x.time_stats);
-                timeStats.forEach(x => accumulated += x.total_time_spent);
-                var totalHours = accumulated / 3600;
-                client.get(`${projectUrl}`, args, function (projectData) {
-                    resolve({
-                        total_issues: issuesData.length,
-                        value: totalHours,
-                        unit: 'hours',
-                        project_name: projectData.name});
+            var totalIssuesData = [];
+
+            var getBatch = (pageNumber) => {
+                args.parameters.page = pageNumber;
+                client.get(`${issuesUrl}`, args, function (issuesData, response) {
+                    if (response.statusCode !== 200) {
+                        reject(response);
+                        return;
+                    }
+                    totalIssuesData = totalIssuesData.concat(issuesData);
+                    var totalIssues = parseInt(response.headers['x-total']);
+                    if (totalIssuesData.length < totalIssues) {
+                        var newPageNumber = pageNumber+1;
+                        getBatch(newPageNumber);
+                    } else {
+                        var accumulated = 0;
+                        var timeStats = totalIssuesData.map(x => x.time_stats);
+                        timeStats.forEach(x => accumulated += x.total_time_spent);
+                        var totalHours = accumulated / 3600;
+                        client.get(`${projectUrl}`, args, function (projectData) {
+                             resolve({
+                                total_issues: totalIssuesData.length,
+                                value: totalHours,
+                                unit: 'hours',
+                                project_name: projectData.name});
+                        });
+                    }
                 });
-            });
+            };
+            getBatch(1);
         });
     },
     notBilled: async function(projectId) {
